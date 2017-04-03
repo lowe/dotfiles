@@ -1,0 +1,9 @@
+# follow symlinks
+--follow
+--type-set=scss=.scss
+--type-set=http=.http
+--type-set=coffee=.coffee
+--ignore-dir=compiled
+--ignore-dir=external
+--ignore-dir=node_modules
+--no-css

@@ -1,0 +1,78 @@
+
+;; start with a blank screen
+(setq inhibit-startup-message t)
+
+;; never use tabs. always use spaces.
+(setq-default indent-tabs-mode nil)
+
+;; 4 spaces on tab
+(setq tab-width 4)
+(setq default-tab-width 4)
+(setq c-indent-level 4)
+
+;; show debugger when an emacs error occurs (probably arising from a .emacs-related bug)
+(setq debug-on-error t)
+
+;;; remove trailing whitespace on save.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; load .el files from Dropbox
+(add-to-list 'load-path (expand-file-name "~/Dropbox/emacs-lisp"))
+
+;; show line numbers
+(require 'linum+)
+(global-linum-mode 1)
+
+;; at the bottom of the screen, show column number next to current line number
+(setq column-number-mode t)
+
+;; show regions selected with the keyboard (using ctrl-space).
+(setq transient-mark-mode t)
+(set-face-background 'region "#000000") ;; white selection area
+
+;; enable syntax highlighting, with lots of colors
+(global-font-lock-mode t)
+(setq font-lock-maximum-decoration t)
+
+;; Backspace deletes the selected region
+(delete-selection-mode t)
+
+;; Type meta-g to go to a line.
+(global-set-key "\M-g" 'goto-line)
+
+;; scss support
+(autoload 'scss-mode "scss-mode")
+(add-to-list 'auto-mode-alist '("\\.scss\\'" . scss-mode))
+(setq scss-compile-at-save nil)
+
+;; pyxl support
+;(add-to-list 'load-path "/usr/share/emacs23/site-lisp/python-mode")
+;(autoload 'pyxl-mode "pyxl-mode" "Major mode for editing pyxl" t)
+;(setq auto-mode-alist
+;      (cons '( "\\.py\\'" . pyxl-mode ) auto-mode-alist ))
+
+;; coffeescript support
+(add-to-list 'auto-mode-alist '("\\.coffee$" . coffee-mode))
+(add-to-list 'auto-mode-alist '("Cakefile" . coffee-mode))
+(require 'coffee-mode)
+(defun coffee-custom ()
+  "coffee-mode-hook"
+  ;; CoffeeScript uses two spaces.
+  (make-local-variable 'tab-width)
+  (set 'tab-width 2)
+
+  ;; If you don't want your compiled files to be wrapped
+  (setq coffee-args-compile '("-c" "--bare"))
+
+  ;; Emacs key binding
+  ;(define-key coffee-mode-map [(meta r)] 'coffee-compile-buffer)
+
+  ;; Riding edge.
+  ;(setq coffee-command "~/dev/coffee")
+
+  ;; Compile '.coffee' files on every save
+  ;; (and (file-exists-p (buffer-file-name))
+  ;;      (file-exists-p (coffee-compiled-file-name))
+  ;;      (coffee-cos-mode t))
+  )
+(add-hook 'coffee-mode-hook 'coffee-custom)
