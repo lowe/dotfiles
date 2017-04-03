@@ -1,3 +1,4 @@
+;; last updated circa ~2010
 
 ;; start with a blank screen
 (setq inhibit-startup-message t)
