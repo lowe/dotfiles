@@ -1,6 +1,6 @@
 ## Setup
 
-Configure terminal to a [solarized-dark](http://ethanschoonover.com/solarized) color scheme,
+Configure terminal to a [solarized-dark](http://ethanschoonover.com/solarized) color scheme
 (colors might be off otherwise), then:
 ```
 $ git clone --recursive https://github.com/lowe/dotfiles
