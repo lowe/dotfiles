@@ -13,3 +13,9 @@
 [submodule "dotvim/bundle/vundle"]
 	path = dotvim/bundle/vundle
 	url = https://github.com/gmarik/vundle.git
+[submodule "dotvim/bundle/vim-javascript"]
+	path = dotvim/bundle/vim-javascript
+	url = https://github.com/pangloss/vim-javascript
+[submodule "dotvim/bundle/vim-jsx"]
+	path = dotvim/bundle/vim-jsx
+	url = https://github.com/mxw/vim-jsx.git

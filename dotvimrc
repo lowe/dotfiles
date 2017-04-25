@@ -106,6 +106,9 @@ set hidden
 " Show the current mode
 set showmode
 
+" javascript: 2space indent
+autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
+
 " Disable syntax highlight for files larger than 50 MB
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 50000000 | syntax clear | endif
 
