@@ -19,3 +19,6 @@
 [submodule "dotvim/bundle/vim-jsx"]
 	path = dotvim/bundle/vim-jsx
 	url = https://github.com/mxw/vim-jsx.git
+[submodule "dotvim/bundle/typescript-vim"]
+	path = dotvim/bundle/typescript-vim
+	url = https://github.com/leafgarland/typescript-vim.git
