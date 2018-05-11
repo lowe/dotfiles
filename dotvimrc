@@ -56,6 +56,9 @@ set shiftwidth=4
 set smarttab                " tab and backspace are smart
 autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2
 
+" indent typescript with two spaces
+autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+
 noremap - :nohls<cr>
 map Y y$
 
