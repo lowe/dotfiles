@@ -9,6 +9,7 @@ alias cp="cp -i"
 alias ll="ls -lh"
 alias sz="source ~/.zshrc"
 alias emacs="emacs -nw"
+alias psg="ps -ef | egrep"
 
 ########################
 ### ENVIRONMENT VARS ###
@@ -27,6 +28,8 @@ MANPAGER=less
 HISTFILE=$HOME/.zhistory
 HISTSIZE=20000
 SAVEHIST=20000
+
+PATH=$PATH:~/bin
 
 ###############
 ### Colors! ###
