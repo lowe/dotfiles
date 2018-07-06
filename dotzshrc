@@ -9,7 +9,7 @@ alias cp="cp -i"
 alias ll="ls -lh"
 alias sz="source ~/.zshrc"
 alias emacs="emacs -nw"
-alias psg="ps -ef | egrep"
+alias psg="ps -ef | egrep -i "
 
 ########################
 ### ENVIRONMENT VARS ###
