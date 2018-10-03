@@ -191,7 +191,7 @@ antigen bundles <<EOBUNDLES
     nmap
     node
     npm
-    nyan
+    #nyan
     pep8
     # per-directory-history
     perl
