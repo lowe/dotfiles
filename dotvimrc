@@ -20,7 +20,7 @@ nnoremap U <c-r>
 set timeoutlen=1000 ttimeoutlen=0 " remove <esc> delay from insert mode
 
 " to install plugins, run:
-" :InstallPlugins
+" :PlugInstall
 call plug#begin('~/.vim/plugged')
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'kien/ctrlp.vim'
