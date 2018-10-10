@@ -31,7 +31,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
 
-" Plug 'christoomey/vim-tmux-navigatorwhi'
+" Plug 'christoomey/vim-tmux-navigator'
 " Plug 'kchmck/vim-coffee-script'
 
 " plugins used at slack
@@ -132,13 +132,13 @@ set showmode
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 50000000 | syntax clear | endif
 
 augroup vimrc_autocmds
-  " highlight everything that's past the 100 character mark
+  " highlight everything past the 100 character mark
   autocmd BufEnter,WinEnter * highlight OverLength ctermbg=236 guibg=#592929
   autocmd BufEnter,WinEnter * let w:m1=matchadd('OverLength', '\%>100v.\+', -1)
   autocmd BufEnter,WinEnter * highlight ExtraWhitespace ctermbg=red guibg=red
 
   " highlight whitespace at the end of lines
-  autocmd BufEnter,WinEnter * let w:m2=matchadd('ExtraWhitespace', '\s\+$', -1)
+  " autocmd BufEnter,WinEnter * let w:m2=matchadd('ExtraWhitespace', '\s\+$', -1)
   " highlight tabs
   " autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
 augroup END
