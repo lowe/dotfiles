@@ -19,45 +19,58 @@ nnoremap U <c-r>
 
 set timeoutlen=1000 ttimeoutlen=0 " remove <esc> delay from insert mode
 
-" training :)
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
+" to install plugins, run:
+" :InstallPlugins
+call plug#begin('~/.vim/plugged')
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'kien/ctrlp.vim'
+Plug 'kchmck/vim-coffee-script'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-surround'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'leafgarland/typescript-vim'
 
-"filetype off
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-"Bundle 'gmarik/vundle'
-"Bundle 'christoomey/vim-tmux-navigator'
-"filetype on
+" Plug 'christoomey/vim-tmux-navigatorwhi'
+" Plug 'kchmck/vim-coffee-script'
 
-execute pathogen#infect()
-filetype plugin on          " enables filetype
-filetype plugin indent on
-filetype indent on
+" plugins used at slack
+Plug 'w0rp/ale'
+Plug 'hhvm/vim-hack'
+Plug 'blueyed/smarty.vim'
+Plug 'editorconfig/editorconfig-vim'
 
-syntax enable
+call plug#end()
+
 set background=dark
 colorscheme solarized
+
+" Our custom hackfmt wrapper doesn't play well with ALE's builtin hackfmt fixer
+function! Slackfmt(buffer) abort
+    let l:executable ='~/webapp/bin/hackfmt'
+    return {'command': ale#Escape(l:executable) . ' %t -i %s', 'read_temporary_file': 1,}
+endfunction
+let g:ale_fixers={'hack': ['Slackfmt']}
+
+let g:ale_fix_on_save=1
+
+" Let me finish typing before you complain at me!
+let g:ale_lint_on_text_changed='normal'
+let g:ale_lint_on_insert_leave=1
+
+let g:ale_fixers={'javascript': ['prettier', 'eslint'],  'json': ['prettier']}
 
 set ttyfast
 set lazyredraw              " Don't update while in macro
 set autoindent              " auto indent
-" set smartindent " might be annoying...
-set expandtab               " expand tabs to spaces
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
 set smarttab                " tab and backspace are smart
-autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2
 
-" indent typescript with two spaces
-autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
+" set smartindent " might be annoying...
+"set expandtab               " expand tabs to spaces
+"set tabstop=4
+"set softtabstop=4
+"set shiftwidth=4
+"autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2
 
 noremap - :nohls<cr>
 map Y y$
@@ -81,7 +94,7 @@ set magic
 " noremap < <<
 
 " trim whitespace on save
-autocmd BufWritePre * :%s/\s\+$//e
+" autocmd BufWritePre * :%s/\s\+$//e
 
 set textwidth=0
 set wrap
@@ -110,7 +123,10 @@ set hidden
 set showmode
 
 " javascript: 2space indent
-autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
+" autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
+
+" indent typescript with two spaces
+" autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
 
 " Disable syntax highlight for files larger than 50 MB
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 50000000 | syntax clear | endif
@@ -122,30 +138,7 @@ augroup vimrc_autocmds
   autocmd BufEnter,WinEnter * highlight ExtraWhitespace ctermbg=red guibg=red
 
   " highlight whitespace at the end of lines
-  " autocmd BufEnter,WinEnter * let w:m2=matchadd('ExtraWhitespace', '\s\+$', -1)
+  autocmd BufEnter,WinEnter * let w:m2=matchadd('ExtraWhitespace', '\s\+$', -1)
   " highlight tabs
-  autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
+  " autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
 augroup END
-
-" http://ctrlpvim.github.io/ctrlp.vim
-set runtimepath^=~/.vim/bundle/ctrlp.vim
-
-" trigger an ag search via new 'K' mode
-" this needs maintenance: current ag vim extension is deprecated.
-" see: https://github.com/rking/ag.vim
-"
-"nnoremap K :Ag "\b<C-R><C-W>\b"<CR>:cw<CR>
-"au FileType qf call AdjustWindowHeight(3, 20)
-"function! AdjustWindowHeight(minheight, maxheight)
-"   let l = 1
-"   let n_lines = 0
-"   let w_width = winwidth(0)
-"   while l <= line('$')
-"       " number to float for division
-"       let l_len = strlen(getline(l)) + 0.0
-"       let line_width = l_len/w_width
-"       let n_lines += float2nr(ceil(line_width))
-"       let l += 1
-"   endw
-"   exe max([min([n_lines, a:maxheight]), a:minheight]) . "wincmd _"
-"endfunction
