@@ -31,10 +31,9 @@ Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 Plug 'leafgarland/typescript-vim'
 
-" Plug 'christoomey/vim-tmux-navigator'
+Plug 'christoomey/vim-tmux-navigator'
 " Plug 'kchmck/vim-coffee-script'
 
-" plugins used at slack
 Plug 'w0rp/ale'
 Plug 'hhvm/vim-hack'
 Plug 'blueyed/smarty.vim'
@@ -46,11 +45,11 @@ set background=dark
 colorscheme solarized
 
 " Our custom hackfmt wrapper doesn't play well with ALE's builtin hackfmt fixer
-function! Slackfmt(buffer) abort
-    let l:executable ='~/webapp/bin/hackfmt'
-    return {'command': ale#Escape(l:executable) . ' %t -i %s', 'read_temporary_file': 1,}
-endfunction
-let g:ale_fixers={'hack': ['Slackfmt']}
+"function! Slackfmt(buffer) abort
+"    let l:executable ='~/webapp/bin/hackfmt'
+"    return {'command': ale#Escape(l:executable) . ' %t -i %s', 'read_temporary_file': 1,}
+"endfunction
+" let g:ale_fixers={'hack': ['Slackfmt']}
 
 let g:ale_fix_on_save=1
 
@@ -142,3 +141,28 @@ augroup vimrc_autocmds
   " highlight tabs
   " autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
 augroup END
+
+function! GitBranch()
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! StatuslineGit()
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+endfunction
+
+set statusline=
+set statusline+=%#PmenuSel#
+set statusline+=%{StatuslineGit()}
+set statusline+=%#LineNr#
+set statusline+=\ %f
+set statusline+=%m\
+set statusline+=%=
+set statusline+=%#CursorColumn#
+set statusline+=\ %y
+set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
+set statusline+=\[%{&fileformat}\]
+set statusline+=\ %p%%
+set statusline+=\ %l:%c
+set statusline+=\  
+
