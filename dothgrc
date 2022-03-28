@@ -1,7 +1,7 @@
 [ui]
 merge = internal:merge
 verbose = True
-username = Dan Wheeler <dan.lowe.wheeler@gmail.com>
+username = Todo <todo@example.com>
 
 [extensions]
 color =

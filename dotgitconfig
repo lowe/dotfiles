@@ -1,6 +1,6 @@
 [user]
-    name = Dan Wheeler
-    email = dan.lowe.wheeler@gmail.com
+    name = todo
+    email = todo@example.com
 [core]
     autocrlf = input
     safecrlf = true
@@ -17,6 +17,6 @@
     type = cat-file -t
     dump = cat-file -p
 [github]
-    user  = lowe
+    user = lowe
 [merge]
     conflictstyle = diff3
