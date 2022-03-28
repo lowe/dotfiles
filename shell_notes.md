@@ -1,11 +1,10 @@
 # Recommended zsh + vim setup for MacOS and Linux.
-Use `brew` on MacOS, and `apt`/`pacman`/`yum` etc on Linux.
+Use `brew` on MacOS, or `apt`/`pacman`/`yum` etc on Linux.
 
 ## iTerm2
-- 1a. No iTerm2? Install `https://iterm2.com/`
-- 1b. Already installed iTerm2? Then, what specific customization did you make?
+Install https://iterm2.com/
 
-2. Confirm your default shell is `zsh`.
+Confirm your default shell is `zsh`.
 
 ```
 whoami
@@ -27,7 +26,6 @@ which zsh
 zsh --version
 ```
 
-3.
 go to: iTerm2 menu > Preferences...
 
 #### Click on `Profiles` tab, `General` subtab:
@@ -57,8 +55,7 @@ This installation flow will create a new `.zshrc` file for you. You can delete i
 
 ```
 # confirm that current ~/.zshrc is new boilerplate
-ls -l ~/.zshrc*
-cat ~/.zshrc
+less ~/.zshrc
 
 # now remove it
 rm ~/.zshrc
@@ -117,7 +114,6 @@ https://github.com/BurntSushi/ripgrep
 brew install fd
 brew install ripgrep
 ```
-
 
 ## Shell commands to learn
 
