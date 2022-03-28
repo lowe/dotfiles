@@ -1,22 +1,97 @@
-###############
-### ALIASES ###
-###############
+# oh my zsh configuration
 
-# force mv, rm and cp to ask user before clobbering file
-alias mv="mv -i"
-alias rm="rm -i"
-alias cp="cp -i"
-alias ll="ls -lh"
-alias sz="source ~/.zshrc"
-alias emacs="emacs -nw"
-alias psg="ps -ef | egrep -i "
+export ZSH=$HOME/.oh-my-zsh
+export ZSH_THEME=""
+
+plugins=(
+    colored-man-pages
+
+    cargo
+
+    # ctrl+o copies current command
+    copybuffer
+
+    # see: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/debian
+    # debian
+
+    # adds encode64 / decode64 commands (alias e64 / d64)
+    encode64
+
+    # press ctrl-z to toggle vim. (instead of ctrl-z <-> fc command)
+    fancy-ctrl-z
+
+    # see https://github.com/sharkdp/fd
+    fd
+
+    # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+    git
+
+    golang
+
+    # adds pp_json, is_json, urlencode_json and urldecode_json.
+    jsontools
+
+    # see nmap aliases: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+    nmap
+
+    # adds node-docs command. eg $ node-docs fs,  $ node-docs path
+    node
+
+    # adds npm aliases: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+    npm
+    nvm
+
+    pep8
+    pip
+
+    # adds rsync aliases https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/git
+    rsync
+
+    rust
+
+    # prevent code from running when pasting into shell: gives chance to review first.
+    safe-paste
+
+    # see: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/ssh-agent
+    # ssh-agent
+
+    # press escape twice to prepend sudo. words mid-command or after sudo denial.
+    sudo
+
+    # adds systemd aliases: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/systemd
+    # systemd
+
+    # adds urlencode and urldecode commands
+    urltools
+
+    # see: https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
+    # vi-mode
+)
+
+source $ZSH/oh-my-zsh.sh
+
+# note: follow manual install instructions for sindresorhus pure theme
+# https://github.com/sindresorhus/pure
+fpath+=$HOME/.zsh/pure
+autoload -U promptinit; promptinit
+prompt pure
 
 ########################
 ### ENVIRONMENT VARS ###
 ########################
 
 setopt ALL_EXPORT # automatically exports all parameters (up until unsetopt ALL_EXPORT)
-unsetopt EQUALS # disable zsh filename substitution on '=' character.
+unsetopt EQUALS   # disable zsh filename substitution on '=' character.
+
+# TERMINAL=/bin/urxvt
+
+# https://stackoverflow.com/questions/18880024/start-ssh-agent-on-login
+# SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
+PATH=~/bin${PATH:+:${PATH}}
+PATH=~/.cargo/bin:$PATH
+PATH=~/.npm-global/bin:$PATH
+PATH=/usr/local/go/bin:~/go/bin:$PATH
 
 EDITOR=vim
 VISUAL=vim
@@ -24,16 +99,54 @@ FCEDIT=vim
 PAGER=less
 MANPAGER=less
 
-# make the history file huge and use ctrl-r compulsively
-HISTFILE=$HOME/.zhistory
-HISTSIZE=20000
-SAVEHIST=20000
+# LIBVIRT_DEFAULT_URI='qemu:///system'
 
-PATH=$PATH:~/bin
-PATH=$PATH:~/.cargo/bin
+# make the history file huge, use ctrl-r every day
+HISTFILE=$HOME/.zhistory
+HISTSIZE=1000000
+SAVEHIST=1000000
+
+#### oh-my-zsh specific environment variables
+
+# Disable bi-weekly auto-update checks.
+DISABLE_AUTO_UPDATE="true"
+
+# Uncomment to disable auto-setting terminal title.
+DISABLE_AUTO_TITLE="true"
+
+# Uncomment to display red dots whilst waiting for completion.
+COMPLETION_WAITING_DOTS="true"
+
+# Uncomment if you want to disable marking untracked files
+# under VCS as dirty. This makes repository status check for large repositories
+# much, much faster.
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+# Uncomment if you want to change the command execution time
+# stamp shown in the history command output.
+# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+HIST_STAMPS="yyyy-mm-dd"
+
+# case-sensitive completion.
+# CASE_SENSITIVE="true"
+
+# Uncomment to use hyphen-insensitive completion. Case
+# sensitive completion must be off. _ and - will be interchangeable.
+# HYPHEN_INSENSITIVE="true"
+
+# Uncomment to change how often to auto-update (in days).
+# export UPDATE_ZSH_DAYS=13
+
+# Uncomment to disable colors in ls.
+# DISABLE_LS_COLORS="true"
+
+# Uncomment to enable command auto-correction.
+# ENABLE_CORRECTION="true"
+
+#### end of oh-my-zsh specific environment variables
 
 ###############
-### Colors! ###
+### Colors  ###
 ###############
 
 if [ "$(uname)" == "Darwin" ]; then
@@ -42,26 +155,24 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
    alias ls='ls --color'
 fi
 
-# superior ls color options. (shows media files as dark green, archives as bright blue, etc.)
-# handy post on configuring: http://blog.twistedcode.org/2008/04/lscolors-explained.html
+# Dan's preferred ls color options. (shows media files as dark green, archives as bright blue, etc.)
+# handy post on configuring:
+# http://blog.twistedcode.org/2008/04/lscolors-explained.html
+#
 # to see the full ls color map, run this command:
 # dircolors --print-database
 LS_COLORS='no=00:fi=00:di=00;34:ln=00;35:pi=40;33:so=01;36:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:';
 
+# add colors where reasonable
 alias diff='diff --color=auto'
+
 GREP_COLOR='0;35' # magenta instead of red
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
-LESSOPEN="| highlight %s --out-format xterm256 --quiet --force --style solarized-dark"
+
 LESS="-RimWJ"
 
-# hackish colored cat output. not recommended:
-# * reduces cat to only accepting one arguement...
-# * might corrupt shell scripts using cat inside command pipelines
-# alias cat='highlight $1 --out-format xterm256 --quiet --force --style solarized-dark'
-
-# solarized man pages. modified from:
-# https://github.com/zlsun/solarized-man
+# solarized man pages. modified from: https://github.com/zlsun/solarized-man
 man() {
     env \
         LESS_TERMCAP_mb=$(printf "\e[1;31m") \
@@ -81,154 +192,28 @@ unsetopt ALL_EXPORT
 ### HISTORY CONFIGURATION ###
 #############################
 
-### make all shells share the same history file.
-### this combines amazingly with a huge HISTFILE.
-setopt APPEND_HISTORY     # when exiting a shell, append history entries to $HISTFILE instead of overwriting
-setopt EXTENDED_HISTORY	  # puts timestamps in the history
-setopt HIST_REDUCE_BLANKS # remove superfluous blanks from each command line being added to the history list.
-setopt INC_APPEND_HISTORY # append every single command to $HISTFILE immediately after hitting ENTER.
-setopt SHARE_HISTORY      # make ctrl-r in any shell reference the commands typed into every shell.
-                          # (imports new commands from the history file in real-time.)
+# note:
+# most history setopts are already properly configured by oh-my-zsh.
+# most notably, making all shells share and append to the same history file. see:
+# https://github.com/ohmyzsh/ohmyzsh/blob/master/lib/history.zsh
+
+# remove superfluous blanks from each command line being added to the history list.
+setopt HIST_REDUCE_BLANKS
 
 ################
 ### BINDKEYS ###
 ################
 
-# make up and down arrows act like ctrl-r and ctrl-s, respectively
+# make up and down arrows act as prefix-matching history completion
 bindkey "^[[A" history-search-backward
 bindkey "^[[B" history-search-forward
 
-### try this if delete key fails
+### try this configuration if delete key fails
 # stty erase ^H
 
 ###############
 ### PLUGINS ###
 ###############
-
-#### oh-my-zsh specific environment variables
-
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
-
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
-
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
-
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
-
-# Uncomment the following line to disable auto-setting terminal title.
-DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
-
-#### end of oh-my-zsh specific environment variables
-
-source ~/.antigen.zsh
-antigen use oh-my-zsh
-antigen bundles <<EOBUNDLES
-    zsh-users/zsh-syntax-highlighting
-    aws
-    battery
-    bower
-    cabal
-    cargo
-    # cask
-    catimg
-    coffee
-    colored-man-pages
-    colorize
-    command-not-found
-    copybuffer
-    copydir
-    copyfile
-    # dircycle
-    # dirhistory
-    docker-compose
-    docker
-    emoji
-    encode64
-    fancy-ctrl-z
-    frontend-search
-    gb
-    gem
-    git
-    git-extras
-    git-flow-avh
-    golang
-    grunt
-    gulp
-    # history-substring-search
-    # history
-    iwhois
-    jsontools
-    # foo
-    last-working-dir
-    # lol
-    mosh
-    nmap
-    node
-    npm
-    #nyan
-    pep8
-    # per-directory-history
-    perl
-    pip
-    python
-    react-native
-    rsync
-    ruby
-    rust
-    # shrink-path
-    # ssh-agent
-    # sublime # conflicts with st terminal
-    # systemadmin
-    # systemd
-    # TaskWarrior
-    # thefuck
-    torrent
-    urltools
-    vagrant
-    vault
-    # vi-mode
-    # vundle
-    # wd
-    # web-search
-    # wp-cli
-    # z
-    # zsh-navigation-tools
-    zsh_reload
-EOBUNDLES
-
-# pure theme
-# see: https://github.com/sindresorhus/pure
-antigen bundle mafredri/zsh-async
-antigen bundle sindresorhus/pure
-
-antigen apply
 
 ########################
 ### MORE ZSH OPTIONS ###
@@ -239,7 +224,7 @@ antigen apply
 
 setopt NO_BEEP
 setopt NO_FLOW_CONTROL    # disable ctrl-s and ctrl-q
-# setopt CORRECT		  # spellcheck-correct commands. comment out if too annoying.
+# setopt CORRECT # spellcheck-correct commands. comment out if too annoying.
 
 setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
@@ -253,7 +238,7 @@ setopt NO_AUTO_MENU
 #unsetopt bgnice
 unsetopt correct correctall
 
+# after brew / apt install zsh-syntax-highlighting
+# note: may need to correct the path
+# source /usr/local/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

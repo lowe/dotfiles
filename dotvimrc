@@ -1,7 +1,11 @@
+" ONE TIME SETUP
+" 1. install the vim-plug plugin manager for vim. https://github.com/junegunn/vim-plug
+" 2. in vim command line run :PlugInstall
+
 set nocompatible
 set noswapfile
-set enc=utf-8  " UTF-8 Default encoding
-set history=9000
+set enc=utf-8     " UTF-8 Default encoding
+set history=10000
 set ruler
 set rulerformat=%l:%c ruler " Display current column/line
 set ignorecase
@@ -14,74 +18,52 @@ set laststatus=2
 noremap <space> :
 set whichwrap=h,l,~,[,]
 
-" u for undo, U for redo
+" press 'u' key for undo, 'U' key for redo
 nnoremap U <c-r>
 
-set timeoutlen=1000 ttimeoutlen=0 " remove <esc> delay from insert mode
+" remove the <esc> delay from insert mode
+set timeoutlen=1000 ttimeoutlen=0
 
-" to install plugins, run:
-" :PlugInstall
+" these are github repos that vim-plug automatically installs
+" uncomment any you don't need, or add more!
 call plug#begin('~/.vim/plugged')
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'kien/ctrlp.vim'
-Plug 'kchmck/vim-coffee-script'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-surround'
-Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
-Plug 'leafgarland/typescript-vim'
-
+Plug 'jason0x43/vim-js-indent'
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'kchmck/vim-coffee-script'
-
-Plug 'w0rp/ale'
-Plug 'hhvm/vim-hack'
-Plug 'blueyed/smarty.vim'
 Plug 'editorconfig/editorconfig-vim'
-
 call plug#end()
 
 set background=dark
 colorscheme solarized
-
-" Our custom hackfmt wrapper doesn't play well with ALE's builtin hackfmt fixer
-"function! Slackfmt(buffer) abort
-"    let l:executable ='~/webapp/bin/hackfmt'
-"    return {'command': ale#Escape(l:executable) . ' %t -i %s', 'read_temporary_file': 1,}
-"endfunction
-" let g:ale_fixers={'hack': ['Slackfmt']}
-
-let g:ale_fix_on_save=1
-
-" Let me finish typing before you complain at me!
-let g:ale_lint_on_text_changed='normal'
-let g:ale_lint_on_insert_leave=1
-
-let g:ale_fixers={'javascript': ['prettier', 'eslint'],  'json': ['prettier']}
 
 set ttyfast
 set lazyredraw              " Don't update while in macro
 set autoindent              " auto indent
 set smarttab                " tab and backspace are smart
 
-" set smartindent " might be annoying...
-"set expandtab               " expand tabs to spaces
-"set tabstop=4
-"set softtabstop=4
-"set shiftwidth=4
-"autocmd BufNewFile,BufReadPost *.coffee setl shiftwidth=2
+set expandtab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 
 noremap - :nohls<cr>
+
 map Y y$
 
 nnoremap <C-h> <C-w>h
 nnoremap <C-j> <C-w>j
 nnoremap <C-k> <C-w>k
 nnoremap <C-l> <C-w>l
+
 cnoremap <C-A> <Home>
 cnoremap <C-E> <End>
 
 set magic
+
 " make /, ?, s/ (and %s/) very magic
 " :nnoremap / /\v
 " :nnoremap ? ?\v
@@ -92,8 +74,8 @@ set magic
 " noremap > >>
 " noremap < <<
 
-" trim whitespace on save
-" autocmd BufWritePre * :%s/\s\+$//e
+" automatically trim whitespace at the end of lines on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 set textwidth=0
 set wrap
@@ -103,8 +85,6 @@ set showcmd                 " Show commands at bottom right
 set showmatch               " Show matching brackets.
 
 if has("wildmenu")
-    "set wildmode=full wildmenu " command-line tab completion
-    "set completeopt=longest,menu,menuone
     set wildmenu
     set wildmode=longest:list,full
     set wildignore+=*.a,*.o
@@ -121,25 +101,19 @@ set hidden
 " Show the current mode
 set showmode
 
-" javascript: 2space indent
-" autocmd FileType javascript setlocal expandtab shiftwidth=2 softtabstop=2
-
-" indent typescript with two spaces
-" autocmd FileType typescript setlocal shiftwidth=2 tabstop=2
-
 " Disable syntax highlight for files larger than 50 MB
 autocmd BufWinEnter * if line2byte(line("$") + 1) > 50000000 | syntax clear | endif
 
 augroup vimrc_autocmds
-  " highlight everything past the 100 character mark
+
+  " non-annoyingly highlight everything past the 100 character mark
   autocmd BufEnter,WinEnter * highlight OverLength ctermbg=236 guibg=#592929
   autocmd BufEnter,WinEnter * let w:m1=matchadd('OverLength', '\%>100v.\+', -1)
   autocmd BufEnter,WinEnter * highlight ExtraWhitespace ctermbg=red guibg=red
 
-  " highlight whitespace at the end of lines
-  " autocmd BufEnter,WinEnter * let w:m2=matchadd('ExtraWhitespace', '\s\+$', -1)
   " highlight tabs
-  " autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
+  autocmd BufEnter,WinEnter * let w:m3=matchadd('ExtraWhitespace', '\t\+', -1)
+
 augroup END
 
 function! GitBranch()
@@ -164,5 +138,4 @@ set statusline+=\ %{&fileencoding?&fileencoding:&encoding}
 set statusline+=\[%{&fileformat}\]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
-set statusline+=\  
-
+set statusline+=\
